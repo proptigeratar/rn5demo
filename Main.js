@@ -3,6 +3,7 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import List from './List'
+import DummyDetail from './DummyDetail'
 
 
 function HomeScreen({ navigation }) {
@@ -10,8 +11,15 @@ function HomeScreen({ navigation }) {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>Home Screen</Text>
       <Button
-        title="Go to List "
-        onPress={() => navigation.navigate('List')}
+        style = {{marginTop:16}}
+        title="Go to List"
+        onPress={() => navigation.navigate('list')}
+      />
+      <Button
+        style = {{marginTop:16}}
+        title="Go to Detail"
+        margin={16}
+        onPress={() => navigation.navigate('detail')}
       />
     </View>
   );
@@ -24,7 +32,8 @@ function Main() {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="List" component={List} />
+        <Stack.Screen name="list" component={List} />
+        <Stack.Screen name="detail" component={DummyDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );

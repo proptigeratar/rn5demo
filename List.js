@@ -33,11 +33,10 @@ export default class List extends PureComponent {
   };
 
   onPress = (index) => {
-
+    this.props.navigation.navigate('detail')
   }
 
   renderItem = ({item, index }) => {
-    console.log('item',item,'index',index)
     const{ gender,name,email,picture} = item
     return(
       <TouchableOpacity onPress = {() => this.onPress(index)}>
@@ -60,12 +59,42 @@ export default class List extends PureComponent {
     this.fetchData();
    }
 
+    // make mqt_js super busy
+  actBusy = () => {
+    setTimeout(() => { this.actBusyFor(8000); }, 500);
+  }
+  
+  actBusyFor = (milliseconds) => {
+    var start = new Date().getTime();
+    for (var i = 0; i < 1e7; i++) {
+      if ((new Date().getTime() - start) > milliseconds) {
+        break;
+      }
+    }
+  }
+  
+  spamBridge = () => {
+    for (var i = 0; i < 1000; i++) {
+      this.initTimer();
+    }
+  }
+  
+  // setTimeout sends a message over MessageQueue.js to trigger the Native "Timing.createTimer()"
+  initTimer = () => {
+    const that = this;
+    setTimeout(function() {
+      that.initTimer();
+    }, 1);
+  }
+
   render() {
-      console.log('render data ',this.state.data.length)
+
     return (
       <View style={styles.container}>
           <Text>Page No - {this.page} Total Items ={this.state.data.length}</Text>
           <TouchableOpacity style = {{width:'100%',height:50,backgroundColor:'cyan',justifyContent:'center',alignItems:'center'}}  onPress = {this.loadMore}><Text >Load More</Text></TouchableOpacity>
+          <TouchableOpacity style = {{width:'100%',height:50,marginTop:10,backgroundColor:'cyan',justifyContent:'center',alignItems:'center'}}  onPress = {this.actBusy}><Text >Make JS Thread busy</Text></TouchableOpacity>
+          <TouchableOpacity style = {{width:'100%',height:50,marginTop:10,backgroundColor:'cyan',justifyContent:'center',alignItems:'center'}}  onPress = {this.spamBridge}><Text >Make RN Bridge busy</Text></TouchableOpacity>
         <FlatList
           data={this.state.data}
           keyExtractor={(x, i) => i+""}
